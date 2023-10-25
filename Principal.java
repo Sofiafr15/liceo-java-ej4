@@ -18,7 +18,6 @@ public class Principal {
             int opcion = leerOpcion();
             escribirMensaje(opcion);
         } while (true);
-
     }
 
     private static void escribirMensaje(int opcion) {
@@ -54,9 +53,40 @@ public class Principal {
             case 2:
                 //Ingresar dinero en la cuenta
                 ingresarDinero();
-
+                break;
+            case 3:
+                retirarDinero();
+                break;
+            case 4:
+                mostrarSaldo();
+                break;
+            default:
+                System.out.println("Opción no válida");
+                break;
         }
 
+    }
+
+    private static void retirarDinero() {
+        //Pedir cantidad
+        pedirCantidad();
+        //Leer cantidad y guardarla
+        double cantidad= leerCantidad();
+        //Si la cantidad es positiva
+        if (cantidad>0){
+            //Si es cuenta normal y no hay suficiente saldo
+            if (tipoCuenta== cuenta_normal && saldoCuenta< cantidad){
+                //Mostrar error
+                System.out.println("Las cuentas normales no pueden tener un saldo negativo");
+            }
+        //En otro caso
+            else {
+                //Restar cantidad al saldo
+                saldoCuenta -= cantidad;
+                //Mostrar saldo
+                mostrarSaldo();
+            }
+        }
     }
 
     private static void ingresarDinero() {
@@ -64,6 +94,32 @@ public class Principal {
         pedirCantidad();
         //Leer cantidad y guardarla
         double cantidad= leerCantidad();
+        //Si la cantidad es positiva
+        if (cantidad>0) {
+            //Sumar cantidad al saldo
+            saldoCuenta+=cantidad;
+            //Mostrar saldo
+            mostrarSaldo();
+        }
+        //Si la cantidad es negativa
+        else {
+        //Mostrar error
+            System.out.println("La cantidad a ingresar debe ser positiva");
+        }
+    }
+
+    private static void mostrarSaldo() {
+        //Si hay cuenta activa
+        if (tipoCuenta != sin_cuenta){
+            //Escribir saldo
+            System.out.println("El saldo de su cuenta es de "+ String.format("%.2f", saldoCuenta) + " €");
+        }
+        //Si no hay cuenta activa
+        else{
+            //Mostrar error
+            System.out.println("No hay cuenta activa");
+        }
+
     }
 
     private static double leerCantidad() {
